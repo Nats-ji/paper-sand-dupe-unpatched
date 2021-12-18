@@ -50,10 +50,12 @@ function build_jar() {
 }
 
 function rename_jar(aVersion, aBuild) {
-  const jar_path = "./Paper/build/libs/"
-  const old_file_name = jar_path + fs
-    .readdirSync(jar_path)
-    .filter((fn) => fn.startsWith("paper-paperclip"))[0];
+  const jar_path = "./Paper/build/libs/";
+  const old_file_name =
+    jar_path +
+    fs
+      .readdirSync(jar_path)
+      .filter((fn) => fn.startsWith("paper-paperclip"))[0];
   const new_file_name = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`;
   try {
     fs.renameSync(old_file_name, new_file_name);
@@ -75,12 +77,23 @@ function remove_sand_patch() {
   console.log("Patch 0445-Fix-sand-duping.patch removed.");
 }
 
+function write_output(aUpdate, aVersion, aBuild) {
+  let data = { Update: aUpdate };
+  if (aVersion && aBuild) {
+    (data.Version = `${aVersion}-${aBuild}`),
+      (data.FileName = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`);
+  }
+  const json = JSON.stringify(data);
+  fs.writeFileSync("output.json", json);
+}
+
 function build_unpatched_paper(aCommit, aVersion, aBuild) {
   clone_papermc();
   checkout_commit(aCommit);
   remove_sand_patch();
   build_jar();
   rename_jar(aVersion, aBuild);
+  write_output(true, aVersion, aBuild);
 }
 
 function check_released_version(aPaperVersion) {
@@ -157,8 +170,10 @@ function get_builds(aVersion) {
           let json = JSON.parse(body);
           const last_build = json.builds[json.builds.length - 1];
           const last_release_id = `${aVersion}-${last_build}`;
-          if (check_released_version(last_release_id))
+          if (check_released_version(last_release_id)) {
+            write_output(false);
             console.log("Already latest version.");
+          }
           get_commit(aVersion, last_build, build_unpatched_paper);
           console.log;
         } catch (error) {
