@@ -114,7 +114,8 @@ function check_released_version(aPaperVersion) {
       res.on("end", () => {
         try {
           let json = JSON.parse(body);
-          return json[0].tag_name == aPaperVersion;
+          if (json[0].tag_name) return json[0].tag_name == aPaperVersion;
+          else return false;
         } catch (error) {
           console.error(error.message);
           process.exit(1);
