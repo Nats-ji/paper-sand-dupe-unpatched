@@ -37,7 +37,7 @@ function checkout_commit(aCommit) {
   );
 }
 
-get_commit_msg(aCommit)
+function get_commit_msg(aCommit)
 {
   let cmdObj = exec(`git log --format=%B -n 1 ${aCommit}`, { cwd: "./Paper", silent: true })
   return cmdObj.stdout
