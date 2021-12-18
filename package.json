@@ -7,6 +7,6 @@
     "start": "node ./index.js"
   },
   "author": "Mingming Cui",
-  "license": "GPLv3",
+  "license": "GPL-3.0-or-later",
   "dependencies": {}
 }
