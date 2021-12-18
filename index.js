@@ -5,6 +5,7 @@ const fs = require("fs");
 //Read env variables
 const env = process.env;
 const gh_repo = env.GH_REPO;
+console.log("gh_repo: " + gh_repo)
 
 function executeCmd(aCmd, aOpt, aMsg) {
   if (arguments.length === 2 && typeof arguments[1] === "string")
@@ -75,6 +76,7 @@ function remove_sand_patch() {
     process.exit(1);
   }
   console.log("Patch 0445-Fix-sand-duping.patch removed.");
+  executeCmd("ls -l", "List files:");
 }
 
 function write_output(aUpdate, aVersion, aBuild) {
@@ -113,9 +115,12 @@ function check_released_version(aPaperVersion) {
 
       res.on("end", () => {
         try {
+          console.log("body", body)
           let json = JSON.parse(body);
-          if (json[0].hasOwnProperty("tag_name")) return json[0].tag_name == aPaperVersion;
-          else return false;
+          // if (json[0].hasOwnProperty("tag_name")) return json[0].tag_name == aPaperVersion;
+          // else return false;
+          console.log("json", json)
+          return false
         } catch (error) {
           console.error(error.message);
           process.exit(1);
