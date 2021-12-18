@@ -8,5 +8,7 @@
   },
   "author": "Mingming Cui",
   "license": "GPL-3.0-or-later",
-  "dependencies": {}
+  "dependencies": {
+    "shelljs.exec": "^1.1.8"
+  }
 }

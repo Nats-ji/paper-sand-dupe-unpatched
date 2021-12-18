@@ -1,25 +1,25 @@
-const { execSync } = require("child_process");
+const exec = require("shelljs.exec");
 const https = require("https");
 const fs = require("fs");
 
 //Read env variables
 const env = process.env;
 const gh_repo = env.GH_REPO;
-console.log("gh_repo: " + gh_repo)
 
 function executeCmd(aCmd, aOpt, aMsg) {
   if (arguments.length === 2 && typeof arguments[1] === "string")
     console.log(arguments[1]);
   if (arguments.length === 3) console.log(aMsg);
-  let opt = {};
-  if (typeof aOpt === "object") opt = aOpt;
+  let opt = { silent: true };
+  if (typeof aOpt === "object") Object.assign(opt, aOpt);
   console.log(`> ${aCmd}`);
-  try {
-    execSync(aCmd, aOpt);
-  } catch (err) {
-    console.error(err.stdout);
-    process.exit(1);
+  let cmdObj = exec(aCmd, opt)
+  if (cmdObj.error)
+  {
+    console.error(cmdObj.stderr)
+    process.exit(cmdObj.code)
   }
+  console.log(cmdObj.stdout)
 }
 
 function clone_papermc() {
@@ -76,7 +76,6 @@ function remove_sand_patch() {
     process.exit(1);
   }
   console.log("Patch 0445-Fix-sand-duping.patch removed.");
-  executeCmd("ls -l", "List files:");
 }
 
 function write_output(aUpdate, aVersion, aBuild) {
@@ -98,7 +97,7 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   write_output(true, aVersion, aBuild);
 }
 
-function check_released_version(aPaperVersion) {
+function check_released_version(aPaperVersion, aLastBuildNo) {
   const release_api = {
     hostname: "api.github.com",
     path: `/repos/${gh_repo}/releases`,
@@ -115,12 +114,14 @@ function check_released_version(aPaperVersion) {
 
       res.on("end", () => {
         try {
-          console.log("body", body)
           let json = JSON.parse(body);
-          // if (json[0].hasOwnProperty("tag_name")) return json[0].tag_name == aPaperVersion;
-          // else return false;
-          console.log("json", json)
-          return false
+          if (json[0].tag_name == aPaperVersion)
+          {
+            write_output(false);
+            console.log("Already latest version.");
+          } else {
+            get_commit(aVersion, aLastBuildNo, build_unpatched_paper);
+          }
         } catch (error) {
           console.error(error.message);
           process.exit(1);
@@ -176,12 +177,7 @@ function get_builds(aVersion) {
           let json = JSON.parse(body);
           const last_build = json.builds[json.builds.length - 1];
           const last_release_id = `${aVersion}-${last_build}`;
-          if (check_released_version(last_release_id)) {
-            write_output(false);
-            console.log("Already latest version.");
-          }
-          get_commit(aVersion, last_build, build_unpatched_paper);
-          console.log;
+          check_released_version(last_release_id, last_build)
         } catch (error) {
           console.error(error.message);
           process.exit(1);
