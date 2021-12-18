@@ -26,7 +26,7 @@ jobs:
 
     - name: Check Version and Build
       env:
-        GH_REPO: ${{github.repository}}
+        GH_REPO: ${{ github.repository }}
       run: npm start
       
     - name: Load output file to env
