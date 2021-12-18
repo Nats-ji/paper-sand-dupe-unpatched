@@ -3,8 +3,9 @@ name: Build unpatched PaperMC
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  workflow_dispatch:
+  schedule:
+    - cron: 0 12 * * *
 
 jobs:
   build:
@@ -40,6 +41,8 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         artifacts: ${{ env.json_FileName }}
+        body: ${{ env.json_Body }}
+        name: ${{ env.json_Title }}
         tag: ${{ env.json_Version }}
         token: ${{ secrets.GITHUB_TOKEN }}
       

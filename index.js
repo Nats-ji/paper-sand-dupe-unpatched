@@ -37,6 +37,12 @@ function checkout_commit(aCommit) {
   );
 }
 
+get_commit_msg(aCommit)
+{
+  let cmdObj = exec(`git log --format=%B -n 1 ${aCommit}`, { cwd: "./Paper", silent: true })
+  return cmdObj.stdout
+}
+
 function build_jar() {
   executeCmd('git config --global user.email "no-reply@github.com"', {
     cwd: "./Paper",
@@ -78,12 +84,14 @@ function remove_sand_patch() {
   console.log("Patch 0445-Fix-sand-duping.patch removed.");
 }
 
-function write_output(aUpdate, aVersion, aBuild) {
+function write_output(aUpdate, aVersion, aBuild, aReleaseInfo) {
   let data = { Update: aUpdate };
   if (aVersion && aBuild) {
     (data.Version = `${aVersion}-${aBuild}`),
       (data.FileName = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`);
   }
+  if (typeof(aReleaseInfo) === "object")
+    Object.assign(data, aReleaseInfo)
   const json = JSON.stringify(data);
   fs.writeFileSync("output.json", json);
 }
@@ -94,7 +102,10 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   remove_sand_patch();
   build_jar();
   rename_jar(aVersion, aBuild);
-  write_output(true, aVersion, aBuild);
+  write_output(true, aVersion, aBuild, {
+    Body: get_commit_msg(),
+    Title: `PaperMC Sand Duping Glitch Unpatched ${aVersion}-${aBuild}`
+  });
 }
 
 function check_released_version(aPaperVersion, aLastBuildNo) {
