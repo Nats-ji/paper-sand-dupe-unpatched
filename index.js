@@ -126,7 +126,7 @@ function check_released_version(aPaperVersion, aLastBuildNo) {
       res.on("end", () => {
         try {
           let json = JSON.parse(body);
-          if (json[0].tag_name == aPaperVersion)
+          if (typeof(json[0]) === "object" && json[0].tag_name == aPaperVersion)
           {
             write_output(false);
             console.log("Already latest version.");
