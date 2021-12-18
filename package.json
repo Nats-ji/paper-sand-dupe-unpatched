@@ -1,0 +1,12 @@
+{
+  "name": "paper-sand-dupe-unpatched",
+  "version": "1.0.0",
+  "description": "Unpatch the sand duplication glitch from PaperMC",
+  "main": "index.js",
+  "scripts": {
+    "run": "node ./index.js"
+  },
+  "author": "Mingming Cui",
+  "license": "GPLv3",
+  "dependencies": {}
+}
