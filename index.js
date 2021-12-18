@@ -108,13 +108,13 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   });
 }
 
-function check_released_version(aPaperVersion, aLastBuildNo) {
+function check_released_version(aVersion, aLastBuildNo) {
   const release_api = {
     hostname: "api.github.com",
     path: `/repos/${gh_repo}/releases`,
     headers: { "User-Agent": gh_repo },
   };
-
+  const paperVersion = `${aVersion}-${aLastBuildNo}`
   https
     .get(release_api, (res) => {
       let body = "";
@@ -126,7 +126,7 @@ function check_released_version(aPaperVersion, aLastBuildNo) {
       res.on("end", () => {
         try {
           let json = JSON.parse(body);
-          if (typeof(json[0]) === "object" && json[0].tag_name == aPaperVersion)
+          if (typeof(json[0]) === "object" && json[0].tag_name == paperVersion)
           {
             write_output(false);
             console.log("Already latest version.");
@@ -187,8 +187,7 @@ function get_builds(aVersion) {
         try {
           let json = JSON.parse(body);
           const last_build = json.builds[json.builds.length - 1];
-          const last_release_id = `${aVersion}-${last_build}`;
-          check_released_version(last_release_id, last_build)
+          check_released_version(aVersion, last_build)
         } catch (error) {
           console.error(error.message);
           process.exit(1);
