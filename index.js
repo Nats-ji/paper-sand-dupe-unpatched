@@ -5,7 +5,7 @@ const fs = require("fs");
 //Read env variables
 const env = process.env;
 const gh_repo = env.GH_REPO;
-const test = (env.TEST === "true")
+const test = env.TEST === "true";
 
 function executeCmd(aCmd, aOpt, aMsg) {
   if (arguments.length === 2 && typeof arguments[1] === "string")
@@ -14,18 +14,17 @@ function executeCmd(aCmd, aOpt, aMsg) {
   let opt = { silent: true };
   if (typeof aOpt === "object") Object.assign(opt, aOpt);
   console.log(`> ${aCmd}`);
-  let cmdObj = exec(aCmd, opt)
-  if (cmdObj.error)
-  {
-    console.error(cmdObj.stderr)
-    process.exit(cmdObj.code)
+  let cmdObj = exec(aCmd, opt);
+  if (cmdObj.error) {
+    console.error(cmdObj.stderr);
+    process.exit(cmdObj.code);
   }
-  console.log(cmdObj.stdout)
+  console.log(cmdObj.stdout);
 }
 
 function clone_papermc() {
-  executeCmd('git submodule update --remote --merge', "Update submodules")
-  executeCmd('git submodule update --recursive', {
+  executeCmd("git submodule update --remote --merge", "Update submodules");
+  executeCmd("git submodule update --recursive", {
     cwd: "./Paper",
   });
 }
@@ -38,10 +37,12 @@ function checkout_commit(aCommit) {
   );
 }
 
-function get_commit_msg(aCommit)
-{
-  let cmdObj = exec(`git log --format=%B -n 1 ${aCommit}`, { cwd: "./Paper", silent: true })
-  return cmdObj.stdout
+function get_commit_msg(aCommit) {
+  let cmdObj = exec(`git log --format=%B -n 1 ${aCommit}`, {
+    cwd: "./Paper",
+    silent: true,
+  });
+  return cmdObj.stdout;
 }
 
 function build_jar() {
@@ -91,8 +92,7 @@ function write_output(aUpdate, aVersion, aBuild, aReleaseInfo) {
     (data.Version = `${aVersion}-${aBuild}`),
       (data.FileName = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`);
   }
-  if (typeof(aReleaseInfo) === "object")
-    Object.assign(data, aReleaseInfo)
+  if (typeof aReleaseInfo === "object") Object.assign(data, aReleaseInfo);
   const json = JSON.stringify(data);
   fs.writeFileSync("output.json", json);
 }
@@ -105,7 +105,7 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   rename_jar(aVersion, aBuild);
   write_output(true, aVersion, aBuild, {
     Body: "##Upstream release message\n" + get_commit_msg(aCommit),
-    Title: `PaperMC Sand Duplication Glitch Unpatched ${aVersion}-${aBuild}`
+    Title: `PaperMC Sand Duplication Glitch Unpatched ${aVersion}-${aBuild}`,
   });
 }
 
@@ -115,7 +115,7 @@ function check_released_version(aVersion, aLastBuildNo) {
     path: `/repos/${gh_repo}/releases`,
     headers: { "User-Agent": gh_repo },
   };
-  const paperVersion = `${aVersion}-${aLastBuildNo}`
+  const paperVersion = `${aVersion}-${aLastBuildNo}`;
   https
     .get(release_api, (res) => {
       let body = "";
@@ -127,8 +127,11 @@ function check_released_version(aVersion, aLastBuildNo) {
       res.on("end", () => {
         try {
           let json = JSON.parse(body);
-          if (!test && typeof(json[0]) === "object" && json[0].tag_name == paperVersion)
-          {
+          if (
+            !test &&
+            typeof json[0] === "object" &&
+            json[0].tag_name == paperVersion
+          ) {
             write_output(false);
             console.log("Already latest version.");
           } else {
@@ -188,7 +191,7 @@ function get_builds(aVersion) {
         try {
           let json = JSON.parse(body);
           const last_build = json.builds[json.builds.length - 1];
-          check_released_version(aVersion, last_build)
+          check_released_version(aVersion, last_build);
         } catch (error) {
           console.error(error.message);
           process.exit(1);
