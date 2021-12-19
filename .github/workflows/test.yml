@@ -11,8 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        submodules: recursive
 
     - name: Setup Node.js 14
       uses: actions/setup-node@v2
@@ -30,6 +28,7 @@ jobs:
         GH_REPO: ${{ github.repository }}
         TEST: true
       run: |
+        git submodule update --init --recursive
         npm install
         npm start
       

@@ -24,10 +24,10 @@ function executeCmd(aCmd, aOpt, aMsg) {
 }
 
 function clone_papermc() {
-  executeCmd(
-    "git clone --recurse-submodules https://github.com/PaperMC/Paper.git",
-    "Clone PaperMC:"
-  );
+  executeCmd('git submodule update --init --recursive', {
+    cwd: "./Paper",
+  },
+  "Update submodules");
 }
 
 function checkout_commit(aCommit) {
