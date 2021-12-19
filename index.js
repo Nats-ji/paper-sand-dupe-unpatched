@@ -86,6 +86,18 @@ function remove_sand_patch() {
   console.log("Patch 0445-Fix-sand-duping.patch removed.");
 }
 
+function remove_falling_block_patch()
+{
+  const patch_path = "./Paper/work/CraftBukkit/nms-patches/net/minecraft/world/entity/item/EntityFallingBlock.patch"
+  try {
+    fs.unlinkSync(patch_path);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log("Patch EntityFallingBlock removed.");
+}
+
 function write_output(aUpdate, aVersion, aBuild, aReleaseInfo) {
   let data = { Update: aUpdate };
   if (aVersion && aBuild) {
@@ -101,6 +113,7 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   clone_papermc();
   checkout_commit(aCommit);
   remove_sand_patch();
+  remove_falling_block_patch();
   build_jar();
   rename_jar(aVersion, aBuild);
   write_output(true, aVersion, aBuild, {
