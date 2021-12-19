@@ -103,7 +103,7 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   build_jar();
   rename_jar(aVersion, aBuild);
   write_output(true, aVersion, aBuild, {
-    Body: get_commit_msg(),
+    Body: get_commit_msg(aCommit),
     Title: `PaperMC Sand Duping Glitch Unpatched ${aVersion}-${aBuild}`
   });
 }
