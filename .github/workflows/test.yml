@@ -36,4 +36,13 @@ jobs:
       run: |
         ls -l
         cat ./output.json
-      
+    
+    - name: Load output file to env
+      uses: antifree/json-to-variables@v1.0.1
+      with:
+        filename: output.json
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2.3.1
+      with:
+        path: ${{ env.json_FileName }}

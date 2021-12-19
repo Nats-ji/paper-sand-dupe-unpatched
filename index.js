@@ -53,7 +53,7 @@ function build_jar() {
     cwd: "./Paper",
   });
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
-  executeCmd("./gradlew createReobfBundlerJar --stacktrace", {
+  executeCmd("./gradlew createReobfPaperclipJar --stacktrace", {
     cwd: "./Paper",
   });
 }
@@ -64,7 +64,7 @@ function rename_jar(aVersion, aBuild) {
     jar_path +
     fs
       .readdirSync(jar_path)
-      .filter((fn) => fn.startsWith("paper-"))[0];
+      .filter((fn) => fn.startsWith("paper-paperclip"))[0];
   const new_file_name = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`;
   try {
     fs.renameSync(old_file_name, new_file_name);
