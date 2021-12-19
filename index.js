@@ -5,6 +5,7 @@ const fs = require("fs");
 //Read env variables
 const env = process.env;
 const gh_repo = env.GH_REPO;
+const test = (env.TEST === "true")
 
 function executeCmd(aCmd, aOpt, aMsg) {
   if (arguments.length === 2 && typeof arguments[1] === "string")
@@ -126,7 +127,7 @@ function check_released_version(aVersion, aLastBuildNo) {
       res.on("end", () => {
         try {
           let json = JSON.parse(body);
-          if (typeof(json[0]) === "object" && json[0].tag_name == paperVersion)
+          if (!test && typeof(json[0]) === "object" && json[0].tag_name == paperVersion)
           {
             write_output(false);
             console.log("Already latest version.");
