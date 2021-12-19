@@ -90,7 +90,8 @@ function remove_falling_block_patch()
 {
   const patch_path = "./Paper/work/CraftBukkit/nms-patches/net/minecraft/world/entity/item/EntityFallingBlock.patch"
   const content = fs.readFileSync(patch_path, { encoding: "utf-8"})
-  let new_content = content.replace("this.discard(); //", "// this.discard(); //")
+  let new_content = content.replace("-                if (this.level.getBlockState(blockposition).is(block)) {\r\n+                if (this.level.getBlockState(blockposition).is(block) && !CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, Blocks.AIR.defaultBlockState()).isCancelled()) {\r\n", "                 if (this.level.getBlockState(blockposition).is(block)) {")
+  new_content = new_content.replace("+                                // CraftBukkit start\r\n+                                if (CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, this.blockState).isCancelled()) {\r\n+                                    this.discard(); // SPIGOT-6586 called before the event in previous versions\r\n+                                    return;\r\n+                                }\r\n+                                // CraftBukkit end\r\n", "")
   fs.writeFileSync(patch_path, new_content)
   console.log("Patch EntityFallingBlock removed.");
 }
