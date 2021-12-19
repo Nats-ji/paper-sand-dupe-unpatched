@@ -89,12 +89,9 @@ function remove_sand_patch() {
 function remove_falling_block_patch()
 {
   const patch_path = "./Paper/work/CraftBukkit/nms-patches/net/minecraft/world/entity/item/EntityFallingBlock.patch"
-  try {
-    fs.unlinkSync(patch_path);
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
+  const content = fs.readFileSync(patch_path, { encoding: "utf-8"})
+  let new_content = content.replace("this.discard(); //", "// this.discard(); //")
+  fs.writeFileSync(patch_path, new_content)
   console.log("Patch EntityFallingBlock removed.");
 }
 
