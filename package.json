@@ -10,5 +10,9 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "shelljs.exec": "^1.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nats-ji/paper-sand-dupe-unpatched.git"
   }
 }
