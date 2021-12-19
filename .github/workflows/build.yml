@@ -5,7 +5,7 @@ on:
     branches: [ master ]
   workflow_dispatch:
   schedule:
-    - cron: 0 12 * * *
+    - cron: '0 12 * * *'
 
 jobs:
   build:
@@ -37,7 +37,7 @@ jobs:
         filename: output.json
 
     - name: Create Release
-      if: ${{ env.json_Update == true }}
+      if: env.json_Update == 'true'
       uses: ncipollo/release-action@v1
       with:
         artifacts: ${{ env.json_FileName }}
