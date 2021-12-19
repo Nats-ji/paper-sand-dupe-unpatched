@@ -24,10 +24,10 @@ function executeCmd(aCmd, aOpt, aMsg) {
 }
 
 function clone_papermc() {
-  executeCmd('git submodule update --init --recursive', {
+  executeCmd('git submodule update --remote --merge', "Update submodules")
+  executeCmd('git submodule update --recursive', {
     cwd: "./Paper",
-  },
-  "Update submodules");
+  });
 }
 
 function checkout_commit(aCommit) {

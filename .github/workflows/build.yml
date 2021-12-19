@@ -26,6 +26,7 @@ jobs:
       env:
         GH_REPO: ${{ github.repository }}
       run: |
+        git submodule update --init --recursive
         npm install
         npm start
       
