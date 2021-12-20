@@ -28,6 +28,7 @@ function build(aCommit, aVersion, aBuild) {
   executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Config git email and name if not set
+  console.log("Checking git config user.name and user.email.")
   if (
     executeCmdS("git config --get user.email") == "" ||
     executeCmdS("git config --get user.name") == ""
