@@ -56,7 +56,6 @@ function build_jar() {
   executeCmd('git config --global user.name "Github Actions"', {
     cwd: "./Paper",
   });
-  executeCmd("./gradlew rebuildPatches --stacktrace", { cwd: "./Paper" });
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
   executeCmd("./gradlew createReobfPaperclipJar --stacktrace", {
     cwd: "./Paper",
