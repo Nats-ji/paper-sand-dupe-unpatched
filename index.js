@@ -4,6 +4,10 @@ const fs = require("fs");
 
 //Read env variables
 const env = process.env;
+if(typeof(process.env.GH_REPO) == "undefined") { 
+  console.error('"GH_REPO" not found in the environment variables, you need to set it first. For example: "Codertocat/Hello-World"');
+  process.exit(1)
+}
 const gh_repo = env.GH_REPO;
 const test = env.TEST === "true";
 
