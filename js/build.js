@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { executeCmd, executeCmdS } = require("./exec");
-const { patch } = require("./patch")
+const { patch } = require("./patch");
 
 function rename_jar(aVersion, aBuild) {
   const jar_path = "./Paper/build/libs/";
@@ -17,6 +17,7 @@ function rename_jar(aVersion, aBuild) {
 function build(aCommit, aVersion, aBuild) {
   // Update submodules
   executeCmd("git submodule update --remote --merge", "Updating submodules");
+  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Checkout commit
   executeCmd(
@@ -43,7 +44,7 @@ function build(aCommit, aVersion, aBuild) {
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
 
   // Patch files
-  patch()
+  patch();
 
   // Commit changes
   executeCmd("git add .", {
