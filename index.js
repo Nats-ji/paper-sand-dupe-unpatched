@@ -22,7 +22,7 @@ async function main() {
 
   if (test || info.released_version != info.paper_release) {
     build(info.latest_commit, info.latest_version, info.latest_build);
-    write_output(true, info.latest_version, info.latest_build);
+    write_output(true, info);
   } else {
     console.log("Already at the latest build.");
     write_output(false);
