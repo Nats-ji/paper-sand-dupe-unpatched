@@ -16,7 +16,8 @@ function rename_jar(aVersion, aBuild) {
 
 function build(aCommit, aVersion, aBuild) {
   // Update submodules
-  executeCmd("git submodule update --remote --merge", "Updating submodules");
+  executeCmd("git submodule update --init --recursive", "Updating submodules");
+  executeCmd("git submodule update --remote --merge");
 
   // Checkout commit
   executeCmd(
