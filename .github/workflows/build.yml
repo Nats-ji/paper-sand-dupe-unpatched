@@ -25,6 +25,7 @@ jobs:
     - name: Configure git credentials
       uses: OleksiyRudenko/gha-git-credentials@v2
       with:
+        global: true
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Check Version and Build

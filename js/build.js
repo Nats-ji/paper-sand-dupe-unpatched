@@ -18,8 +18,8 @@ function build(aCommit, aVersion, aBuild) {
   // Config git email and name if not set
   console.log("Checking git config user.name and user.email.")
   if (
-    executeCmdS("git config --get user.email") == "" ||
-    executeCmdS("git config --get user.name") == ""
+    executeCmdS("git config --global --get user.email") == "" ||
+    executeCmdS("git config --global --get user.name") == ""
   ) {
     console.log("No name and email found in git config, setting default ones.");
     executeCmd('git config --global user.email "no-reply@github.com"', {
