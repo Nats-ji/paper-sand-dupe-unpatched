@@ -1,4 +1,4 @@
-name: Build unpatched PaperMC
+name: Release
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: '0 0,12 * * *'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:

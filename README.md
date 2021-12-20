@@ -5,7 +5,7 @@
 This is a node.js application that runs periodically on the Github Action runner.
 
 It will fetch the latest version of [PaperMC](https://github.com/PaperMC/Paper),
-and remove the [sand duplication glitch patch](https://github.com/PaperMC/Paper/blob/master/patches/server/0445-Fix-sand-duping.patch), so you could have a vallina server experience.
+and undos the sand duplication glitch patch that PaperMC has implemented, so you could have a vallina server experience.
 
 The runner will run every day to check if there's a new build of PaperMC. And it will rebuild the jar once the sand duping patch has been removed and make a new [release](https://github.com/Nats-ji/paper-sand-dupe-unpatched/releases) on this repository.
 
@@ -34,6 +34,12 @@ The runner will run every day to check if there's a new build of PaperMC. And it
   ```
   
 5. Then the github workflow can read the `output.json` to decide whether to make a new release.
+
+## How to run it yourself?
+
+Fork this repository and enable the workflows from the `Actions` tab.
+
+You can press the `Run workflow` button in the Release workflow to trigger the build manually.
 
 ## License
 This node.js app and the released jars are all licensed under GLPv3.
