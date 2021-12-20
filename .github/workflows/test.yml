@@ -23,6 +23,11 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
+    - name: Configure git credentials
+      uses: OleksiyRudenko/gha-git-credentials@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Check Version and Build
       env:
         GH_REPO: ${{ github.repository }}
