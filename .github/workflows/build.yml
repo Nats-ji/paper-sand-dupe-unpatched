@@ -3,7 +3,7 @@ name: Build unpatched PaperMC
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 0,12 * * *'
 
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
 
     - name: Configure git credentials
-      uses: OleksiyRudenko/gha-git-credentials@v2
+      uses: OleksiyRudenko/gha-git-credentials@v2.1
       with:
         global: true
         token: ${{ secrets.GITHUB_TOKEN }}

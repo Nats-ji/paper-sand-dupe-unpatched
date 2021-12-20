@@ -3,6 +3,9 @@ name: Test
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -24,7 +27,7 @@ jobs:
           distribution: 'temurin'
 
     - name: Configure git credentials
-      uses: OleksiyRudenko/gha-git-credentials@v2
+      uses: OleksiyRudenko/gha-git-credentials@v2.1
       with:
         global: true
         token: ${{ secrets.GITHUB_TOKEN }}
