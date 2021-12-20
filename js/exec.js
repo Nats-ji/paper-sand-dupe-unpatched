@@ -9,7 +9,7 @@ function executeCmd(aCmd, aOpt, aMsg) {
   console.log(`> ${aCmd}`);
   let cmdObj = exec(aCmd, opt);
   if (cmdObj.error) {
-    console.error(cmdObj.stderr);
+    console.error(cmdObj.stdout);
     process.exit(cmdObj.code);
   }
   console.log(cmdObj.stdout);
@@ -20,8 +20,7 @@ function executeCmdS(aCmd, aOpt) {
   if (typeof aOpt === "object") Object.assign(opt, aOpt);
   let cmdObj = exec(aCmd, opt);
   if (cmdObj.error) {
-    console.error(cmdObj.stderr);
-    process.exit(cmdObj.code);
+    console.error(cmdObj.stdout);
   }
   return cmdObj.stdout;
 }
