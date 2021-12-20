@@ -52,6 +52,7 @@ function build_jar() {
   executeCmd('git config --global user.name "Github Actions"', {
     cwd: "./Paper",
   });
+  executeCmd("./gradlew rebuildPatches --stacktrace", { cwd: "./Paper" });
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
   executeCmd("./gradlew createReobfPaperclipJar --stacktrace", {
     cwd: "./Paper",
@@ -83,17 +84,19 @@ function remove_sand_patch() {
     console.error(err);
     process.exit(1);
   }
-  console.log("Patch 0445-Fix-sand-duping.patch removed.");
+  console.log("Patch Fix-sand-duping.patch removed.");
 }
 
-function remove_falling_block_patch()
+function remove_end_portal_patch()
 {
-  const patch_path = "./Paper/work/CraftBukkit/nms-patches/net/minecraft/world/entity/item/EntityFallingBlock.patch"
-  const content = fs.readFileSync(patch_path, { encoding: "utf-8"})
-  let new_content = content.replace("-                if (this.level.getBlockState(blockposition).is(block)) {\r\n+                if (this.level.getBlockState(blockposition).is(block) && !CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, Blocks.AIR.defaultBlockState()).isCancelled()) {\r\n", "                 if (this.level.getBlockState(blockposition).is(block)) {")
-  new_content = new_content.replace("+                                // CraftBukkit start\r\n+                                if (CraftEventFactory.callEntityChangeBlockEvent(this, blockposition, this.blockState).isCancelled()) {\r\n+                                    this.discard(); // SPIGOT-6586 called before the event in previous versions\r\n+                                    return;\r\n+                                }\r\n+                                // CraftBukkit end\r\n", "")
-  fs.writeFileSync(patch_path, new_content)
-  console.log("Patch EntityFallingBlock removed.");
+  const patch_path = "./Paper/patches/server/0678-Fix-dangerous-end-portal-logic.patch";
+  try {
+    fs.unlinkSync(patch_path);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log("Patch Fix-dangerous-end-portal-logic.patch removed.");
 }
 
 function write_output(aUpdate, aVersion, aBuild, aReleaseInfo) {
@@ -111,7 +114,7 @@ function build_unpatched_paper(aCommit, aVersion, aBuild) {
   clone_papermc();
   checkout_commit(aCommit);
   remove_sand_patch();
-  remove_falling_block_patch();
+  remove_end_portal_patch();
   build_jar();
   rename_jar(aVersion, aBuild);
   write_output(true, aVersion, aBuild, {
