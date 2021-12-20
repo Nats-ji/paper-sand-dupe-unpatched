@@ -17,7 +17,6 @@ function rename_jar(aVersion, aBuild) {
 function build(aCommit, aVersion, aBuild) {
   // Update submodules
   executeCmd("git submodule update --remote --merge", "Updating submodules");
-  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Checkout commit
   executeCmd(
@@ -25,6 +24,7 @@ function build(aCommit, aVersion, aBuild) {
     { cwd: "./Paper" },
     `Checking out Commit: ${aCommit}`
   );
+  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Config git email and name if not set
   if (
