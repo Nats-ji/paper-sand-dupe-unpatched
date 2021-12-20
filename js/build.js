@@ -15,18 +15,6 @@ function rename_jar(aVersion, aBuild) {
 }
 
 function build(aCommit, aVersion, aBuild) {
-  // Update submodules
-  executeCmd("git submodule update --init --recursive", "Updating submodules");
-  executeCmd("git submodule update --remote --merge");
-
-  // Checkout commit
-  executeCmd(
-    `git checkout ${aCommit}`,
-    { cwd: "./Paper" },
-    `Checking out Commit: ${aCommit}`
-  );
-  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
-
   // Config git email and name if not set
   console.log("Checking git config user.name and user.email.")
   if (
@@ -41,6 +29,18 @@ function build(aCommit, aVersion, aBuild) {
       cwd: "./Paper",
     });
   }
+
+  // Update submodules
+  executeCmd("git submodule update --init --recursive", "Updating submodules");
+  executeCmd("git submodule update --remote --merge");
+
+  // Checkout commit
+  executeCmd(
+    `git checkout ${aCommit}`,
+    { cwd: "./Paper" },
+    `Checking out Commit: ${aCommit}`
+  );
+  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Apply patches
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
