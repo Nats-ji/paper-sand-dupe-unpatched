@@ -7,7 +7,7 @@ This is a node.js application that runs periodically on the Github Action runner
 It will fetch the latest version of [PaperMC](https://github.com/PaperMC/Paper),
 and undo the sand duplication glitch patches that PaperMC has implemented, so you could have a vanilla server experience.
 
-The runner will run every day to check if there's a new build of PaperMC. And it will rebuild the jar once the sand duping patches has been removed and make a new [release](https://github.com/Nats-ji/paper-sand-dupe-unpatched/releases) on this repository.
+The runner will run twice a day to check if there's a new build of PaperMC. And it will rebuild the jar once the sand duping patches has been removed and make a new [release](https://github.com/Nats-ji/paper-sand-dupe-unpatched/releases) on this repository.
 
 ## How does it run?
 
