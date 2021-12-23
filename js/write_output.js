@@ -6,8 +6,8 @@ function write_output(aUpdate, aInfo) {
 
   if (aUpdate && aInfo.paper_release) {
     data.Version = aInfo.paper_release;
-    data.FileName = `paper-sand-dupe-unpatched-${aInfo.paper_release}.jar`;
-    data.Title = `PaperMC Sand Duplication Glitch Unpatched ${aInfo.paper_release}`;
+    data.FileName = `paper-sand-dupe-unpatched-${aInfo.latest_version}-${aInfo.latest_build}.jar`;
+    data.Title = `PaperMC Sand Duplication Glitch Unpatched ${aInfo.latest_version}-${aInfo.latest_build}`;
     data.Body = `## Upstream release message\n${aInfo.commit_msg}`;
   }
 
