@@ -67,8 +67,17 @@ async function get_info(aGhRepo)
     info.latest_commit = await get_commit(info.latest_version, info.latest_build)
     info.commit_msg = await get_commit_msg(info.latest_version, info.latest_build)
     info.released_version = await get_released_version(aGhRepo)
-    info.paper_release = `${info.latest_version}-${info.latest_build}`
+    info.paper_release = convert_gh_version(info.latest_version, info.latest_build)
     return info
+}
+
+// Add leading zeros so the releases will be ordered correctly on github
+function convert_gh_version(aVersion, aBuild)
+{
+    while (aBuild.length < 3) {
+        aBuild = "0" + aBuild
+    }
+    return `${aVersion}-${aBuild}`
 }
 
 module.exports = { get_info }
