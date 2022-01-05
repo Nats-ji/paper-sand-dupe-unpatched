@@ -36,13 +36,13 @@ async function get_build(aVersion)
 async function get_commit(aVersion, aBuild)
 {
     let json = await get_json(`https://papermc.io/api/v2/projects/paper/versions/${aVersion}/builds/${aBuild}/`)
-    return json.changes[0].commit;
+    return json.changes.length > 0 ? json.changes[0].commit : get_commit(aVersion, Number(aBuild) - 1);
 }
 
 async function get_commit_msg(aVersion, aBuild)
 {
     let json = await get_json(`https://papermc.io/api/v2/projects/paper/versions/${aVersion}/builds/${aBuild}/`)
-    return json.changes[0].message;
+    return json.changes.length > 0 ? json.changes[0].message : "No Changes";
 }
 
 async function get_released_version(aGhRepo)
