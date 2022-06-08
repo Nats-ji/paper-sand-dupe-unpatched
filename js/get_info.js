@@ -27,9 +27,19 @@ async function get_version()
     return json.versions[json.versions.length - 1]
 }
 
+async function get_version_prev()
+{
+    let json = await get_json("https://papermc.io/api/v2/projects/paper/")
+    return json.versions[json.versions.length - 2]
+}
+
 async function get_build(aVersion)
 {
     let json = await get_json(`https://papermc.io/api/v2/projects/paper/versions/${aVersion}/`)
+    // in case builds are empty return -1
+    if (json.builds.length === 0)
+        return -1
+
     return json.builds[json.builds.length - 1]
 }
 
@@ -64,6 +74,14 @@ async function get_info(aGhRepo)
     let info = {}
     info.latest_version = await get_version()
     info.latest_build = await get_build(info.latest_version)
+    
+    // check if builds are empty, then use prev version.
+    if (info.latest_build === -1)
+    {
+        info.latest_version = await get_version_prev()
+        info.latest_build = await get_build(info.latest_version)
+    }
+
     info.latest_commit = await get_commit(info.latest_version, info.latest_build)
     info.commit_msg = await get_commit_msg(info.latest_version, info.latest_build)
     info.released_version = await get_released_version(aGhRepo)
