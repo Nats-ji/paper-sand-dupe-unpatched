@@ -1,11 +1,15 @@
 # PaperMC Sand Duplication Glitch Unpatched
 
+[中文](https://github.com/Nats-ji/paper-sand-dupe-unpatched/blob/master/README_zh.md)
+
 ## What is this?
 
-This is a node.js application that runs periodically on the Github Action runner.
+This is a custom build of the plugin compatible and high performant Minecraft server, PaperMC. This build removes the patches that fix [the end portal gravity block duplication glitch](https://minecraft.fandom.com/wiki/Tutorials/Block_and_item_duplication#Gravity_Block_Duplication_.28Patched_in_Paper_1.15.2_Build_.23358.29) from the PaperMC. So you can duplicate sand and other gravity blocks as in vanilla Minecraft server.
+
+It is a node.js application that runs periodically on the Github Action runner.
 
 It will fetch the latest version of [PaperMC](https://github.com/PaperMC/Paper),
-and undo the sand duplication glitch patches that PaperMC has implemented, so you could have a vanilla server experience.
+and undo the sand duplication glitch patches that PaperMC has implemented.
 
 The runner will run twice a day to check if there's a new build of PaperMC. And it will rebuild the jar once the sand duping patches has been removed and make a new [release](https://github.com/Nats-ji/paper-sand-dupe-unpatched/releases) on this repository.
 
