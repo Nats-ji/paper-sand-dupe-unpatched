@@ -48,5 +48,6 @@ jobs:
         body: ${{ env.json_Body }}
         name: ${{ env.json_Title }}
         tag: ${{ env.json_Version }}
+        prerelease: ${{ env.json_PreRelease }}
         token: ${{ secrets.GITHUB_TOKEN }}
       
