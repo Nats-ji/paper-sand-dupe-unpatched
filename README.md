@@ -26,6 +26,7 @@ The runner will run twice a day to check if there's a new build of PaperMC. And 
   {
     "Update": true,
     "Version": "${mc_version}-${build_number}",
+    "PreRelease": false,
     "FileName": "paper-sand-dupe-unpatched-${mc_version}-${build_number}",
     "Body": "The app will fetch the upstream release msg and put it here.",
     "Title": "PaperMC Sand Duplication Glitch Unpatched ${mc_version}-${build_number}"
