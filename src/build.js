@@ -32,7 +32,7 @@ function build(aCommit, aVersion, aBuild) {
   }
 
   // Update submodules
-  executeCmd("git submodule update --init --recursive", "Updating submodules");
+  executeCmd("git submodule update --init --recursive", "Update PaperMC to latest commit");
   executeCmd("git submodule update --remote --merge");
 
   // Checkout commit
@@ -42,7 +42,6 @@ function build(aCommit, aVersion, aBuild) {
     `Checking out Commit: ${aCommit}`
   );
   executeCmd("git submodule update --recursive", { cwd: "./Paper" });
-  executeCmd("git submodule update --remote --merge", { cwd: "./Paper" });
 
   // Apply patches
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
