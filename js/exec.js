@@ -9,7 +9,7 @@ function executeCmd(aCmd, aOpt, aMsg) {
   console.log(`> ${aCmd}`);
   let cmdObj = exec(aCmd, opt);
   if (cmdObj.error) {
-    console.error(cmdObj.stdout);
+    console.error(cmdObj.stderr);
     process.exit(cmdObj.code);
   }
   console.log(cmdObj.stdout);
