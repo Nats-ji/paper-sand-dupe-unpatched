@@ -1,4 +1,5 @@
 const { getVersion } = require("./version")
+const fs = require("fs")
 
 function edit(aFile, aEdits) {
   let content = fs.readFileSync(`./Paper/Paper-Server/${aFile}`, {

@@ -42,6 +42,7 @@ function build(aCommit, aVersion, aBuild) {
     `Checking out Commit: ${aCommit}`
   );
   executeCmd("git submodule update --recursive", { cwd: "./Paper" });
+  executeCmd("git submodule update --remote --merge", { cwd: "./Paper" });
 
   // Apply patches
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
