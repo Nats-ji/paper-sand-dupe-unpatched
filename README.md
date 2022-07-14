@@ -61,5 +61,16 @@ Fork this repository and enable the workflows from the `Actions` tab.
 
 You can press the `Run workflow` button in the Release workflow to trigger the build manually.
 
+Create a `config.json` file in the project root directory with following content to set specific version and build number to compile.
+
+```json
+{ version = "1.17.1", build = "411" }
+```
+
+To compile the latest build in specific version:
+```json
+{ version = "1.17.1" }
+```
+
 ## License
 This node.js app and the released jars are all licensed under GLPv3.

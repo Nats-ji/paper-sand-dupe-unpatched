@@ -1,14 +1,15 @@
 const fs = require("fs");
+const { getVersion } = require("./version")
 const { executeCmd, executeCmdS } = require("./exec");
 const { patch } = require("./patch");
 
 function rename_jar(aVersion, aBuild) {
-  const jar_path = "./Paper/build/libs/";
+  const jar_path = getVersion().settings.jar_path;
   const old_file_name =
     jar_path +
     fs
       .readdirSync(jar_path)
-      .filter((fn) => fn.startsWith("paper-paperclip"))[0];
+      .filter((fn) => fn.startsWith(getVersion().settings.jar_filter))[0];
   const new_file_name = `paper-sand-dupe-unpatched-${aVersion}-${aBuild}.jar`;
   fs.renameSync(old_file_name, new_file_name);
   console.log(`Renamed jar to ${new_file_name}`);
@@ -62,7 +63,7 @@ function build(aCommit, aVersion, aBuild) {
   });
 
   // Compile Jar
-  executeCmd("./gradlew createReobfPaperclipJar --stacktrace", {
+  executeCmd(getVersion().settings.build_cmd, {
     cwd: "./Paper",
   });
 

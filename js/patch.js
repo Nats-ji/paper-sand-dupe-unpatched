@@ -1,10 +1,4 @@
-const fs = require("fs");
-
-function load_patches() {
-  const json = fs.readFileSync("./patches/patches.json", { encoding: "utf-8" });
-  let patches = JSON.parse(json);
-  return patches;
-}
+const { getVersion } = require("./version")
 
 function edit(aFile, aEdits) {
   let content = fs.readFileSync(`./Paper/Paper-Server/${aFile}`, {
@@ -17,7 +11,7 @@ function edit(aFile, aEdits) {
 }
 
 function patch() {
-  const patches = load_patches();
+  const patches = getVersion().patches;
   for (let i = 0; i < patches.length; i++) {
     const patch = patches[i];
     console.log("Patching:", patch.patch_name);

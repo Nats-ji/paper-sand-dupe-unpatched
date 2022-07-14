@@ -1,0 +1,18 @@
+[
+  {
+    "versions": ["latest"],
+    "settings": {
+      "build_cmd": "./gradlew createReobfPaperclipJar --stacktrace",
+      "jar_path": "./Paper/build/libs/",
+      "jar_filter": "paper-paperclip"
+    }
+  },
+  {
+    "versions": ["1.17.1"],
+    "settings": {
+      "build_cmd": "./gradlew paperclipJar --stacktrace",
+      "jar_path": "./Paper/build/libs/",
+      "jar_filter": "Paper"
+    }
+  }
+]

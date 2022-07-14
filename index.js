@@ -1,26 +1,44 @@
 const { get_info } = require("./js/get_info");
+const { setVersion } = require("./js/version")
 const { build } = require("./js/build");
 const { write_output } = require("./js/write_output");
+const fs = require("fs");
 
 async function main() {
   //Read env variables
   const env = process.env;
-  if (typeof process.env.GH_REPO == "undefined") {
+  if (typeof env.GH_REPO == "undefined") {
     console.error(
       '"GH_REPO" not found in the environment variables, you need to set it first. For example: "Codertocat/Hello-World"'
     );
     process.exit(1);
   }
-  const gh_repo = env.GH_REPO;
   const test = env.TEST === "true";
 
+  //Try load config
+  const config = {}
+  try {
+    const config_path = "./config.json"
+    if(fs.existsSync(config_path)) {
+      const json = fs.readFileSync(config_path, { encoding: "utf-8" })
+      let config_parsed = JSON.parse(json)
+      config.VERSION = config_parsed.version
+      config.BUILD = config_parsed.build
+      console.log(`Found config.json, using version: ${config.VERSION || "latest" } build: ${config.BUILD || "latest"}`)
+    } else
+      console.log("No config.json found, using the latest version and build.")
+  } catch (e) {
+    console.error(e)
+  }
+
   //Get info
-  let info = await get_info(gh_repo);
+  let info = await get_info(env.GH_REPO, config.VERSION, config.BUILD);
   console.log(
-    `Latest Paper Version is: ${info.paper_release}, on commit: ${info.latest_commit}.\nLatest unpatch Version is: ${info.released_version}.`
+    `Target Paper Version is: ${info.paper_release}, on commit: ${info.latest_commit}.\nLatest unpatch Version is: ${info.released_version}.`
   );
 
   if (test || info.released_version != info.paper_release) {
+    setVersion(info.latest_version)
     build(info.latest_commit, info.latest_version, info.latest_build);
     write_output(true, info);
   } else {
