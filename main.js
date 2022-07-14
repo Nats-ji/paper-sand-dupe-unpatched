@@ -1,7 +1,7 @@
-const { get_info } = require("./js/get_info");
-const { setVersion } = require("./js/version")
-const { build } = require("./js/build");
-const { write_output } = require("./js/write_output");
+const { get_info } = require("./src/get_info");
+const { setVersion } = require("./src/version")
+const { build } = require("./src/build");
+const { write_output } = require("./src/write_output");
 const fs = require("fs");
 
 async function main() {
@@ -34,10 +34,10 @@ async function main() {
   //Get info
   let info = await get_info(env.GH_REPO, config.VERSION, config.BUILD);
   console.log(
-    `Target Paper Version is: ${info.paper_release}, on commit: ${info.latest_commit}.\nLatest unpatch Version is: ${info.released_version}.`
+    `Target Paper Version is: ${info.paper_release}, on commit: ${info.latest_commit}.\nRelease exists: ${info.release_exists}`
   );
 
-  if (test || info.released_version != info.paper_release) {
+  if (test || !info.release_exists) {
     setVersion(info.latest_version)
     build(info.latest_commit, info.latest_version, info.latest_build);
     write_output(true, info);

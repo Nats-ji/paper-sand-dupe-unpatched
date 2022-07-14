@@ -21,6 +21,15 @@ function get_json(aUrl)
     })
 }
 
+function get_statusCode(aUrl)
+{
+    return new Promise((resolve, reject) => {
+        https.get(aUrl, (res) => {
+            resolve(res.statusCode)
+        })
+    })
+}
+
 async function get_version()
 {
     let json = await get_json("https://papermc.io/api/v2/projects/paper/")
@@ -82,18 +91,15 @@ function get_commit_msg(aBuild)
     return commit_msg
 }
 
-async function get_released_version(aGhRepo)
+async function release_exists(aGhRepo, aTag)
 {
     const gh_release_api = {
         hostname: "api.github.com",
-        path: `/repos/${aGhRepo}/releases`,
+        path: `/repos/${aGhRepo}/releases/tags/${aTag}`,
         headers: { "User-Agent": aGhRepo },
       };
-    let json = await get_json(gh_release_api);
-    if (typeof json[0] === "object")
-      return json[0].tag_name
-    else
-      return ""
+    let status_code = await get_statusCode(gh_release_api);
+    return status_code == 200 ? true : false
 }
 
 async function get_info(aGhRepo, aVersion=null, aBuild=null)
@@ -112,8 +118,8 @@ async function get_info(aGhRepo, aVersion=null, aBuild=null)
     info.pre_release = build.channel == "experimental"
     info.latest_commit = await get_commit(build)
     info.commit_msg = get_commit_msg(build)
-    info.released_version = await get_released_version(aGhRepo)
     info.paper_release = convert_gh_version(info.latest_version, info.latest_build)
+    info.release_exists = await release_exists(aGhRepo, info.paper_release)
     return info
 }
 

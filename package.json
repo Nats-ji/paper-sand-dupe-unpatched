@@ -4,7 +4,7 @@
   "description": "Unpatch the sand duplication glitch from PaperMC",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js"
+    "start": "node ./main.js"
   },
   "author": "Mingming Cui",
   "license": "GPL-3.0-or-later",
