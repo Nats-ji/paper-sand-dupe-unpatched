@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/Nats-ji/paper-sand-dupe-unpatched?style=flat-square) ![fork](https://img.shields.io/github/forks/Nats-ji/paper-sand-dupe-unpatched?style=flat-square) ![star](https://img.shields.io/github/stars/Nats-ji/paper-sand-dupe-unpatched?style=flat-square) ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/Nats-ji/paper-sand-dupe-unpatched?include_prereleases&sort=semver&style=flat-square) ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/Nats-ji/paper-sand-dupe-unpatched?style=flat-square) ![downloads](https://img.shields.io/github/downloads/Nats-ji/paper-sand-dupe-unpatched/total?color=dark-green&style=flat-square)
+
 # PaperMC Sand Duplication Glitch Unpatched
 
 [中文](https://github.com/Nats-ji/paper-sand-dupe-unpatched/blob/master/README_zh.md)
