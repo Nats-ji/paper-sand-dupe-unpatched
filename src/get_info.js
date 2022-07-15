@@ -123,14 +123,20 @@ async function get_info(aGhRepo, aVersion=null, aBuild=null)
     return info
 }
 
-// Add leading zeros so the releases will be ordered correctly on github
+// Add zeros so the releases will be ordered correctly on github
 function convert_gh_version(aVersion, aBuild)
 {
+    // add trailing 0 to version
+    const version = aVersion.split(".")
+    if (version.length == 2) {
+        version.push(0)
+    }
+    // add leading 0 to build
     let build = aBuild.toString()
     while (build.length < 3) {
         build = "0" + build
     }
-    return `${aVersion}-${build}`
+    return `${version.join(".")}-${build}`
 }
 
 module.exports = { get_info }
