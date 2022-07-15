@@ -4,6 +4,8 @@
 
 [中文](https://github.com/Nats-ji/paper-sand-dupe-unpatched/blob/master/README_zh.md)
 
+![banner](https://repository-images.githubusercontent.com/439708131/2399b3e8-c386-427d-9370-cf7a4c847b8d)
+
 ## Download
 
 ### Latest Version
