@@ -16,7 +16,7 @@ async function get_checksums(aPath) {
   let md5 = await file_checksum("md5", aPath);
   let sha1 = await file_checksum("sha1", aPath);
   console.log(`Checksum for "${aPath}":\nMD5\t${md5}\nSHA1\t${sha1}`)
-  return `## Checksum\n\`\`\`\n${aPath}\nMD5    ${md5}\nSHA1   ${sha1}\n\`\`\``;
+  return `### Checksum\n| File | ${aPath} |\n| - | :- |\n| MD5 | ${md5} |\n| SHA1 | ${sha1} |`;
 }
 
 async function write_output(aUpdate, aInfo) {
@@ -26,9 +26,9 @@ async function write_output(aUpdate, aInfo) {
     data.Version = aInfo.paper_release;
     data.PreRelease = aInfo.pre_release;
     data.FileName = `paper-sand-dupe-unpatched-${aInfo.latest_version}-${aInfo.latest_build}.jar`;
-    data.Title = `PaperMC Sand Duplication Glitch Unpatched ${aInfo.latest_version}-${aInfo.latest_build}`;
+    data.Title = `${aInfo.latest_version}-${aInfo.latest_build}`;
     let checksum = await get_checksums(data.FileName);
-    data.Body = `## Upstream release message\n${aInfo.commit_msg}\n\n${checksum}`;
+    data.Body = `## PaperMC Sand Duplication Unpatched ${aInfo.latest_version}-${aInfo.latest_build}\n### Upstream release message\n${aInfo.commit_msg}\n${checksum}`;
   }
 
   const json = JSON.stringify(data);

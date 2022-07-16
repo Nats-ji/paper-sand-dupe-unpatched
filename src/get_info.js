@@ -83,7 +83,7 @@ function get_commit_msg(aBuild)
         }
 
         for (const change of aBuild.changes) {
-            commit_msg += `[PaperMC/Paper@${change.commit}] ${format_commit_msg(change.summary)}\n\n`
+            commit_msg += `> [PaperMC/Paper@${change.commit}] ${format_commit_msg(change.summary)}\n`
         }
     }
     else
