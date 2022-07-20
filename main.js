@@ -39,7 +39,7 @@ async function main() {
 
   if (test || !info.release_exists) {
     setVersion(info.latest_version)
-    build(info.latest_commit, info.latest_version, info.latest_build);
+    build(info.latest_commit, info.latest_version, info.latest_build, test);
     write_output(true, info);
   } else {
     console.log("Already at the latest build.");

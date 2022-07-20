@@ -15,7 +15,7 @@ function rename_jar(aVersion, aBuild) {
   console.log(`Renamed jar to ${new_file_name}`);
 }
 
-function build(aCommit, aVersion, aBuild) {
+function build(aCommit, aVersion, aBuild, aTest) {
   // Config git email and name if not set
   console.log("Checking git config user.name and user.email.")
   if (
@@ -41,6 +41,15 @@ function build(aCommit, aVersion, aBuild) {
     { cwd: "./Paper" },
     `Checking out Commit: ${aCommit}`
   );
+  
+  // Commit and push submodule
+  if (!aTest) {
+    executeCmd("git add ./Paper")
+    executeCmd('git commit -m "Update PaperMC"')
+    executeCmd(`git push https://${process.env.GH_TOKEN}@github.com/${process.env.GH_REPO}.git`)
+
+  }
+
   executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Apply patches

@@ -31,6 +31,7 @@ jobs:
     - name: Check Version and Build
       env:
         GH_REPO: ${{ github.repository }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm install
         npm start
