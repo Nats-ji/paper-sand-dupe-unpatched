@@ -60,6 +60,7 @@ function build(aCommit, aVersion, aBuild, aTest) {
     });
     content = content.replace('error(errorText)', '');
     fs.writeFileSync(`./Paper/settings.gradle.kts`, content);
+    console.log("Patched ./Paper/settings.gradle.kts")
   }
 
   // Apply patches
