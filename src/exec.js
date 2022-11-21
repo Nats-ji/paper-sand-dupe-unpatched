@@ -22,7 +22,7 @@ function executeCmdS(aCmd, aOpt) {
   if (cmdObj.error) {
     console.error(cmdObj.stdout);
   }
-  return cmdObj.stdout;
+  return cmdObj.stdout.trim();
 }
 
 module.exports = { executeCmd, executeCmdS };

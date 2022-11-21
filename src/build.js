@@ -31,26 +31,25 @@ function build(aCommit, aVersion, aBuild, aTest) {
     });
   }
 
-  // Update submodules
-  executeCmd("git submodule update --init --recursive", "Update PaperMC to latest commit");
-  executeCmd("git submodule update --remote --merge");
-
+  // Submodule PaperMC
   // Checkout commit
-  executeCmd(
-    `git checkout ${aCommit}`,
-    { cwd: "./Paper" },
-    `Checking out Commit: ${aCommit}`
-  );
+  // if old commit then ...
+  if (executeCmdS("git rev-parse HEAD", { cwd: "./Paper"}) !== aCommit) {
+    executeCmd(
+      `git checkout ${aCommit}`,
+      { cwd: "./Paper" },
+      `Checking out Commit: ${aCommit}`
+    );
+    
+    // Commit and push submodule
+    if (!aTest) {
+      executeCmd("git add ./Paper")
+      executeCmd('git commit -m "Update PaperMC"')
+      executeCmd(`git push https://${process.env.GH_TOKEN}@github.com/${process.env.GH_REPO}.git`)
+    }
   
-  // Commit and push submodule
-  if (!aTest && (executeCmdS("git rev-parse HEAD", { cwd: "./Paper"}) !== aCommit)) {
-    executeCmd("git add ./Paper")
-    executeCmd('git commit -m "Update PaperMC"')
-    executeCmd(`git push https://${process.env.GH_TOKEN}@github.com/${process.env.GH_REPO}.git`)
-
+    executeCmd("git submodule update --recursive", { cwd: "./Paper" });
   }
-
-  executeCmd("git submodule update --recursive", { cwd: "./Paper" });
 
   // Patch ./Paper/settings.gradle.kts for https://github.com/PaperMC/Paper/commit/4a3ae595357d8c6c48938d889d199b50f09221e5
   if (!(fs.existsSync("./Paper/.git") && fs.lstatSync("./Paper/.git").isDirectory()))
