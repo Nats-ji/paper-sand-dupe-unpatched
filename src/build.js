@@ -43,7 +43,7 @@ function build(aCommit, aVersion, aBuild, aTest) {
   );
   
   // Commit and push submodule
-  if (!aTest) {
+  if (!aTest && (executeCmdS("git rev-parse HEAD", { cwd: "./Paper"}) !== aCommit)) {
     executeCmd("git add ./Paper")
     executeCmd('git commit -m "Update PaperMC"')
     executeCmd(`git push https://${process.env.GH_TOKEN}@github.com/${process.env.GH_REPO}.git`)
@@ -51,6 +51,16 @@ function build(aCommit, aVersion, aBuild, aTest) {
   }
 
   executeCmd("git submodule update --recursive", { cwd: "./Paper" });
+
+  // Patch ./Paper/settings.gradle.kts for https://github.com/PaperMC/Paper/commit/4a3ae595357d8c6c48938d889d199b50f09221e5
+  if (!(fs.existsSync("./Paper/.git") && fs.lstatSync("./Paper/.git").isDirectory()))
+  {
+    let content = fs.readFileSync(`./Paper/settings.gradle.kts`, {
+      encoding: "utf-8",
+    });
+    content = content.replace('error(errorText)', '');
+    fs.writeFileSync(`./Paper/settings.gradle.kts`, content);
+  }
 
   // Apply patches
   executeCmd("./gradlew applyPatches --stacktrace", { cwd: "./Paper" });
