@@ -1,0 +1,57 @@
+name: 3dm Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: recursive
+      
+    - name: Setup Node.js 14
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.x
+    
+    - name: Setup JDK 17
+      uses: actions/setup-java@v3
+      with:
+          java-version: 17
+          distribution: 'temurin'
+
+    - name: Configure git credentials
+      uses: OleksiyRudenko/gha-git-credentials@v2.1.1
+      with:
+        global: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check Version and Build
+      env:
+        GH_REPO: ${{ github.repository }}
+        TEST: true
+      run: |
+        npm install
+        npm start
+      
+    - name: Load output file to env
+      uses: antifree/json-to-variables@v1.0.1
+      with:
+        filename: output.json
+
+    - name: 3dm release
+      uses: GlossMod/ActionUpdateMod@v1
+      with:
+        appid: ${{ secrets.APPID_3DM }}
+        appkey: ${{ secrets.APPKEY_3DM }}
+        id: ${{ secrets.MODID_3DM }}
+        version: ${{ env.json_Version }}
+        file: ${{ env.json_FileName }}
+
+    - name: Check 3DM upload status
+      run: "echo 'Code: ${{ steps.test3.outputs.code }}\tMessage: ${{ steps.test3.outputs.msg }}'"
+      
