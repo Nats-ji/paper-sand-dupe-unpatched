@@ -78,3 +78,4 @@ jobs:
         cookies: ${{ secrets.COOKIES_3DM }}
         id: ${{ secrets.MODID_3DM }}
         file: ${{ steps.update_3dm.outputs.file }}
+        filename: paper-sand-dupe-unpatched-${{ env.json_Version }}
