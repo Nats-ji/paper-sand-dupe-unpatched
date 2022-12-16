@@ -45,7 +45,7 @@ jobs:
       with:
         filename: output.json
 
-    - name: Create Release
+    - name: Create Release on Github
       if: env.json_Update == 'true'
       uses: ncipollo/release-action@v1
       with:
@@ -56,3 +56,25 @@ jobs:
         prerelease: ${{ env.json_PreRelease }}
         token: ${{ secrets.GITHUB_TOKEN }}
       
+    - name: Update into on 3dm
+      if: env.json_Update == 'true'
+      uses: GlossMod/ActionUpdateMod@v1
+      id: update_3dm
+      with:
+        appid: ${{ secrets.APPID_3DM }}
+        appkey: ${{ secrets.APPKEY_3DM }}
+        id: ${{ secrets.MODID_3DM }}
+        version: ${{ env.json_Version }}
+        content: README_zh.md
+        file: ${{ env.json_FileName }}
+        zip-only: true
+
+    - name: Upload file to 3dm
+      if: env.json_Update == 'true'
+      uses: Nats-ji/Action3DMLargeFileUpload@v1
+      with:
+        username: ${{ secrets.USERNAME_3DM }}
+        password: ${{ secrets.PASSWORD_3DM }}
+        cookies: ${{ secrets.COOKIES_3DM }}
+        id: ${{ secrets.MODID_3DM }}
+        file: ${{ steps.update_3dm.outputs.file }}
