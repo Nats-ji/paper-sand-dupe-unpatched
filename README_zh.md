@@ -18,12 +18,12 @@
 
 ## 下载
 
-### 最新版本
+#### 最新版本
 
 [![GitHub release (latest by date including pre-releases)][latest-release-big]](https://github.com/Nats-ji/paper-sand-dupe-unpatched/releases)
 
 <details>
-  <summary><h3>历史版本</h3></summary>
+  <summary><b>历史版本</b></summary>
   
 | 版本 | 下载 |
 | ------- | -------- |
