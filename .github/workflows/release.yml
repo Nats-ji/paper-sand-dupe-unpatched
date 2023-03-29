@@ -104,6 +104,34 @@ jobs:
           zip-only: true
 
       - name: Upload file to 3dm
+        id: uploadFile
+        continue-on-error: true
+        uses: Nats-ji/Action3DMLargeFileUpload@v1
+        with:
+          username: ${{ secrets.USERNAME_3DM }}
+          password: ${{ secrets.PASSWORD_3DM }}
+          cookies: ${{ secrets.COOKIES_3DM }}
+          id: ${{ secrets.MODID_3DM }}
+          file: ${{ steps.update_3dm.outputs.file }}
+          filename: paper-sand-dupe-unpatched-${{ needs.build.outputs.version }}
+
+      # hacky way to retry after failing to upload
+      - name: Upload file to 3dm 1st retry
+        id: uploadFileRetry1
+        if: steps.uploadFile.outcome == 'failure'
+        continue-on-error: true
+        uses: Nats-ji/Action3DMLargeFileUpload@v1
+        with:
+          username: ${{ secrets.USERNAME_3DM }}
+          password: ${{ secrets.PASSWORD_3DM }}
+          cookies: ${{ secrets.COOKIES_3DM }}
+          id: ${{ secrets.MODID_3DM }}
+          file: ${{ steps.update_3dm.outputs.file }}
+          filename: paper-sand-dupe-unpatched-${{ needs.build.outputs.version }}
+
+      - name: Upload file to 3dm 2nd retry
+        id: uploadFileRetry2
+        if: steps.uploadFileRetry1.outcome == 'failure'
         uses: Nats-ji/Action3DMLargeFileUpload@v1
         with:
           username: ${{ secrets.USERNAME_3DM }}
