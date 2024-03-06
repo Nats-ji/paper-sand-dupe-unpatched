@@ -7,6 +7,9 @@
 
 # PaperMC Sand Duplication Glitch Unpatched
 
+> [!IMPORTANT]
+> PaperMC now [adds an option](https://github.com/PaperMC/Paper/pull/10191) to enable sand duplication since v1.20.4-446. You should use the [official build](https://papermc.io/downloads/paper) instead. This project will pause the update until they decide to remove the dupe again.
+
 [中文](https://github.com/Nats-ji/paper-sand-dupe-unpatched/blob/master/README_zh.md)
 
 ![banner](https://repository-images.githubusercontent.com/439708131/2399b3e8-c386-427d-9370-cf7a4c847b8d)
